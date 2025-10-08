@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมพยัญชนะไทย - อนุบาล 3 By Kru May</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #e879f9, #f3e8ff, #fce7f3);
+            min-height: 100%;
+        }
+        html {
+            height: 100%;
+        }
+        .thai-font {
+            font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+        }
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .pulse-correct {
+            animation: pulseCorrect 0.8s ease-in-out;
+        }
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #22c55e; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="thai-font">
+    <div class="min-h-full flex flex-col">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-purple-300 to-pink-300 shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-4xl font-bold text-center text-purple-800 mb-2">🎯 เกมพยัญชนะไทย 🎯</h1>
+                <p class="text-xl text-center text-purple-700">สำหรับเด็กอนุบาล 3</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 container mx-auto px-4 py-8">
+            <!-- Learning Section -->
+            <div id="learningSection" class="mb-8">
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8">
+                    <h2 class="text-3xl font-bold text-purple-800 text-center mb-6">📚 มาเรียนรู้พยัญชนะกันเถอะ!</h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-gradient-to-br from-purple-200 to-pink-200 rounded-2xl p-4 text-center hover:scale-105 transition-transform cursor-pointer" onclick="playSound('ก')">
+                            <div class="text-6xl font-bold text-purple-800 mb-2">ก</div>
+                            <div class="text-lg text-purple-700">ก ไก่</div>
+                            <div class="text-4xl">🐔</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-200 to-pink-200 rounded-2xl p-4 text-center hover:scale-105 transition-transform cursor-pointer" onclick="playSound('ข')">
+                            <div class="text-6xl font-bold text-purple-800 mb-2">ข</div>
+                            <div class="text-lg text-purple-700">ข ไข่</div>
+                            <div class="text-4xl">🥚</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-200 to-pink-200 rounded-2xl p-4 text-center hover:scale-105 transition-transform cursor-pointer" onclick="playSound('ค')">
+                            <div class="text-6xl font-bold text-purple-800 mb-2">ค</div>
+                            <div class="text-lg text-purple-700">ค ควาย</div>
+                            <div class="text-4xl">🐃</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-200 to-pink-200 rounded-2xl p-4 text-center hover:scale-105 transition-transform cursor-pointer" onclick="playSound('ง')">
+                            <div class="text-6xl font-bold text-purple-800 mb-2">ง</div>
+                            <div class="text-lg text-purple-700">ง งู</div>
+                            <div class="text-4xl">🐍</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="startQuiz()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all">
+                            🎮 เริ่มเล่นเกม!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quizSection" class="hidden">
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-purple-800">🎯 เกมตอบคำถาม</h2>
+                        <div class="text-xl font-bold text-purple-700">
+                            ข้อ <span id="currentQuestion">1</span>/5
+                        </div>
+                    </div>
+
+                    <div id="questionCard" class="text-center mb-8">
+                        <div class="text-8xl mb-4" id="questionEmoji">🐔</div>
+                        <div class="text-2xl font-bold text-purple-800 mb-6" id="questionText">นี่คือรูปอะไร? เลือกพยัญชนะที่ถูกต้อง</div>
+                        
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button class="answer-btn bg-gradient-to-br from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-purple-800 font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg transform hover:scale-105 transition-all" onclick="selectAnswer(0)">
+                                ก
+                            </button>
+                            <button class="answer-btn bg-gradient-to-br from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-purple-800 font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg transform hover:scale-105 transition-all" onclick="selectAnswer(1)">
+                                ข
+                            </button>
+                            <button class="answer-btn bg-gradient-to-br from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-purple-800 font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg transform hover:scale-105 transition-all" onclick="selectAnswer(2)">
+                                ค
+                            </button>
+                            <button class="answer-btn bg-gradient-to-br from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-purple-800 font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg transform hover:scale-105 transition-all" onclick="selectAnswer(3)">
+                                ง
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="feedback" class="text-center hidden">
+                        <div id="feedbackMessage" class="text-2xl font-bold mb-4"></div>
+                        <div id="explanation" class="text-lg text-purple-700 mb-6"></div>
+                        <button id="nextBtn" onclick="nextQuestion()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all">
+                            ข้อต่อไป →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden">
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 text-center">
+                    <div class="text-8xl mb-4">🎉</div>
+                    <h2 class="text-4xl font-bold text-purple-800 mb-4">เยี่ยมมาก!</h2>
+                    <div class="text-2xl text-purple-700 mb-6">
+                        คุณตอบถูก <span id="finalScore" class="font-bold text-green-600">0</span> ข้อ จาก 5 ข้อ
+                    </div>
+                    <div id="scoreMessage" class="text-xl text-purple-600 mb-8"></div>
+                    <button onclick="restartQuiz()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all">
+                        🔄 เล่นอีกครั้ง
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gradient-to-r from-purple-400 to-pink-400 text-white py-4 mt-8">
+            <div class="container mx-auto px-4 text-center">
+                <p class="text-lg font-medium">จัดทำโดย คุณครูอัจฉราภรณ์ อุดมเสียง</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                emoji: "🐔",
+                question: "นี่คือรูปอะไร? เลือกพยัญชนะที่ถูกต้อง",
+                options: ["ก", "ข", "ค", "ง"],
+                correct: 0,
+                explanation: "ถูกต้อง! 🐔 คือ ไก่ เริ่มต้นด้วยพยัญชนะ 'ก'"
+            },
+            {
+                emoji: "🥚",
+                question: "นี่คือรูปอะไร? เลือกพยัญชนะที่ถูกต้อง",
+                options: ["ก", "ข", "ค", "ง"],
+                correct: 1,
+                explanation: "ถูกต้อง! 🥚 คือ ไข่ เริ่มต้นด้วยพยัญชนะ 'ข'"
+            },
+            {
+                emoji: "🐃",
+                question: "นี่คือรูปอะไร? เลือกพยัญชนะที่ถูกต้อง",
+                options: ["ก", "ข", "ค", "ง"],
+                correct: 2,
+                explanation: "ถูกต้อง! 🐃 คือ ควาย เริ่มต้นด้วยพยัญชนะ 'ค'"
+            },
+            {
+                emoji: "🐍",
+                question: "นี่คือรูปอะไร? เลือกพยัญชนะที่ถูกต้อง",
+                options: ["ก", "ข", "ค", "ง"],
+                correct: 3,
+                explanation: "ถูกต้อง! 🐍 คือ งู เริ่มต้นด้วยพยัญชนะ 'ง'"
+            },
+            {
+                emoji: "🐔",
+                question: "ไก่ เริ่มต้นด้วยพยัญชนะอะไร?",
+                options: ["ง", "ค", "ข", "ก"],
+                correct: 3,
+                explanation: "ถูกต้อง! ไก่ เริ่มต้นด้วยพยัญชนะ 'ก'"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function playSound(letter) {
+            // Visual feedback for clicking letters
+            event.target.classList.add('bounce-in');
+            setTimeout(() => {
+                event.target.classList.remove('bounce-in');
+            }, 600);
+        }
+
+        function startQuiz() {
+            document.getElementById('learningSection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const question = questions[currentQuestionIndex];
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionEmoji').textContent = question.emoji;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const answerBtns = document.querySelectorAll('.answer-btn');
+            answerBtns.forEach((btn, index) => {
+                btn.textContent = question.options[index];
+                btn.className = 'answer-btn bg-gradient-to-br from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-purple-800 font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg transform hover:scale-105 transition-all';
+                btn.disabled = false;
+            });
+
+            document.getElementById('feedback').classList.add('hidden');
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
+            
+            answered = true;
+            const question = questions[currentQuestionIndex];
+            const answerBtns = document.querySelectorAll('.answer-btn');
+            
+            answerBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === question.correct) {
+                score++;
+                answerBtns[selectedIndex].classList.add('pulse-correct');
+                answerBtns[selectedIndex].className = 'answer-btn bg-green-500 text-white font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg';
+                
+                document.getElementById('feedbackMessage').textContent = "🎉 ถูกต้อง!";
+                document.getElementById('feedbackMessage').className = "text-2xl font-bold mb-4 text-green-600";
+            } else {
+                answerBtns[selectedIndex].classList.add('shake');
+                answerBtns[selectedIndex].className = 'answer-btn bg-red-500 text-white font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg';
+                answerBtns[question.correct].className = 'answer-btn bg-green-500 text-white font-bold py-6 px-4 rounded-2xl text-4xl shadow-lg';
+                
+                document.getElementById('feedbackMessage').textContent = "😊 ลองใหม่นะ!";
+                document.getElementById('feedbackMessage').className = "text-2xl font-bold mb-4 text-orange-600";
+            }
+
+            document.getElementById('explanation').textContent = question.explanation;
+            document.getElementById('feedback').classList.remove('hidden');
+
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('nextBtn').textContent = "ดูผลคะแนน 🏆";
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            
+            document.getElementById('finalScore').textContent = score;
+            
+            let message = "";
+            if (score === 5) {
+                message = "🌟 เก่งมาก! คุณเป็นนักเรียนดีเด่น!";
+            } else if (score >= 3) {
+                message = "👏 ดีมาก! คุณเรียนรู้ได้ดี!";
+            } else {
+                message = "💪 ไม่เป็นไร ลองเล่นอีกครั้งนะ!";
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('learningSection').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b2b43653817335',t:'MTc1OTg5NTc0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
